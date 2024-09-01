@@ -600,7 +600,9 @@ const struct optname optionnames[] = {
 #ifdef IPV4_FLOWINFO
 	IF_IP6    ("flowinfo",	&opt_ipv6_flowinfo)
 #endif
+#ifndef __QNXNTO__
 	IF_TERMIOS("flusho",	&opt_flusho)
+#endif
 	IF_RETRY  ("forever",	&opt_forever)
 	IF_LISTEN ("fork",	&opt_fork)
 #ifdef IP_FREEBIND

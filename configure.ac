@@ -13,6 +13,15 @@ else
    FGREP="grep -F"
 fi
 
+build_qnx=no
+RTLIB=-lrt
+
+if  [[[ "${host_alias}" =~ "qnx" ]]] ; then :
+  build_qnx=yes
+  RTLIB=
+  LIBS="$LIBS -lregex"
+fi
+
 # find out which defines gcc passes to cpp, so makedepend does not run into
 # (harmless) "error architecture not supported"
 AC_MSG_CHECKING(which defines needed for makedepend)
@@ -492,7 +501,7 @@ AC_ARG_ENABLE(posixmq, [  --disable-posixmq       disable POSIX MQ support],
 if test "$WITH_POSIXMQ"; then
     case "`uname`" in
     Linux) AC_DEFINE(WITH_POSIXMQ)
-	   LIBS="$LIBS -lrt" ;;
+	   LIBS="$LIBS $RTLIB" ;;
     *) AC_MSG_WARN([POSIX MQ currently implemented for Linux only])
        WITH_POSIXMQ= ;;
     esac
@@ -991,7 +1000,7 @@ AC_STRUCT_ST_RDEV
 AC_HEADER_TIME
 
 dnl Check for extra realtime library (for Solaris)
-AC_CHECK_FUNC(nanosleep, AC_DEFINE(HAVE_NANOSLEEP), AC_CHECK_LIB(rt, nanosleep, [LIBS="-lrt $LIBS"; AC_DEFINE(HAVE_NANOSLEEP)]))
+AC_CHECK_FUNC(nanosleep, AC_DEFINE(HAVE_NANOSLEEP), AC_CHECK_LIB(rt, nanosleep, [LIBS="$RTLIB $LIBS"; AC_DEFINE(HAVE_NANOSLEEP)]))
 #AC_CHECK_FUNC(nanosleep, , AC_CHECK_LIB(rt, nanosleep))
 
 dnl Checks for library functions.
@@ -1720,7 +1729,7 @@ AC_CHECK_LIB(util, openpty,
 
 AC_CHECK_PROTOTYPE_LIB(gettimeofday)
 
-AC_CHECK_FUNC(clock_gettime, AC_DEFINE(HAVE_CLOCK_GETTIME), AC_CHECK_LIB(rt, clock_gettime, [LIBS="-lrt $LIBS"; AC_DEFINE(HAVE_CLOCK_GETTIME)]))
+AC_CHECK_FUNC(clock_gettime, AC_DEFINE(HAVE_CLOCK_GETTIME), AC_CHECK_LIB(rt, clock_gettime, [LIBS="$RTLIB $LIBS"; AC_DEFINE(HAVE_CLOCK_GETTIME)]))
 
 dnl Search for flock()
 # with Linux it's in libc, with AIX in libbsd

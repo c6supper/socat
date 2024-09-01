@@ -230,7 +230,9 @@ const struct optdesc opt_echoctl = { "echoctl", NULL, OPT_ECHOCTL, GROUP_TERMIOS
 const struct optdesc opt_echoprt = { "echoprt", NULL, OPT_ECHOPRT, GROUP_TERMIOS, PH_FD, TYPE_BOOL,  OFUNC_TERMIOS_FLAG, 3, ECHOPRT };
 #endif
 const struct optdesc opt_echoke  = { "echoke",  NULL, OPT_ECHOKE,  GROUP_TERMIOS, PH_FD, TYPE_BOOL,  OFUNC_TERMIOS_FLAG, 3, ECHOKE };
+#ifndef __QNXNTO__
 const struct optdesc opt_flusho  = { "flusho",  NULL, OPT_FLUSHO,  GROUP_TERMIOS, PH_FD, TYPE_BOOL,  OFUNC_TERMIOS_FLAG, 3, FLUSHO };
+#endif
 const struct optdesc opt_noflsh  = { "noflsh",  NULL, OPT_NOFLSH,  GROUP_TERMIOS, PH_FD, TYPE_BOOL,  OFUNC_TERMIOS_FLAG, 3, NOFLSH };
 const struct optdesc opt_tostop  = { "tostop",  NULL, OPT_TOSTOP,  GROUP_TERMIOS, PH_FD, TYPE_BOOL,  OFUNC_TERMIOS_FLAG, 3, TOSTOP };
 #ifdef PENDIN

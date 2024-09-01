@@ -109,7 +109,9 @@ extern const struct optdesc opt_echonl;
 extern const struct optdesc opt_echoctl;
 extern const struct optdesc opt_echoprt;
 extern const struct optdesc opt_echoke;
+#ifndef __QNXNTO__
 extern const struct optdesc opt_flusho;
+#endif
 extern const struct optdesc opt_noflsh;
 extern const struct optdesc opt_tostop;
 extern const struct optdesc opt_pendin;

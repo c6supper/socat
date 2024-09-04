@@ -1713,6 +1713,10 @@ AC_CHECK_FUNC(strtoll, AC_DEFINE(HAVE_STRTOLL))
 AC_CHECK_FUNC(hstrerror, AC_DEFINE(HAVE_HSTRERROR))
 AC_CHECK_FUNC(inet_ntop, AC_DEFINE(HAVE_INET_NTOP))
 
+if  [[[ "${host_alias}" =~ "qnx" ]]] ; then :
+  AC_CHECK_FUNC(hstrerror,  , AC_CHECK_LIB(socket, hstrerror, [LIBS="$LIBS -lsocket"; AC_DEFINE(HAVE_HSTRERROR)]))
+fi
+
 #if test "$ac_cv_func_hstrerror" = "yes"; then
 #  AC_MSG_CHECKING(if _XOPEN_SOURCE_EXTENDED is helpful)
 #  AC_CACHE_VAL(ac_cv_xopen_source_extended,

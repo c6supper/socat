@@ -442,17 +442,32 @@ AC_ARG_ENABLE(vsock, [  --disable-vsock         disable vsock support],
 	       *) AC_MSG_RESULT(yes); WITH_VSOCK=1 ;;
 	       esac],
 	       [AC_MSG_RESULT(yes);  WITH_VSOCK=1 ])
-if test "$WITH_VSOCK"; then
-  AC_CHECK_HEADER(linux/vm_sockets.h,
-    AC_DEFINE(HAVE_LINUX_VM_SOCKETS_H),
-    [WITH_VSOCK=;
-     AC_MSG_WARN([include file linux/vm_sockets.h not found, disabling vsock])],
-    [AC_INCLUDES_DEFAULT
-    #if HAVE_SYS_SOCKET_H
-    #include <sys/socket.h>
-    #endif
-    ]
- )
+if test "x$build_qnx" = xyes; then
+  if test "$WITH_VSOCK"; then
+    AC_CHECK_HEADER(vm_sockets.h,
+      AC_DEFINE(HAVE_QNX_VM_SOCKETS_H),
+      [WITH_VSOCK=;
+      AC_MSG_WARN([include file vm_sockets.h not found, disabling vsock])],
+      [AC_INCLUDES_DEFAULT
+      #if HAVE_SYS_SOCKET_H
+      #include <sys/socket.h>
+      #endif
+      ]
+  )
+  fi
+else
+  if test "$WITH_VSOCK"; then
+    AC_CHECK_HEADER(linux/vm_sockets.h,
+      AC_DEFINE(HAVE_LINUX_VM_SOCKETS_H),
+      [WITH_VSOCK=;
+      AC_MSG_WARN([include file linux/vm_sockets.h not found, disabling vsock])],
+      [AC_INCLUDES_DEFAULT
+      #if HAVE_SYS_SOCKET_H
+      #include <sys/socket.h>
+      #endif
+      ]
+  )
+  fi
 fi
 if test "$WITH_VSOCK"; then
    AC_DEFINE(WITH_VSOCK)

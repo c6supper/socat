@@ -203,5 +203,8 @@
 #if HAVE_LINUX_VM_SOCKETS_H
 #include <linux/vm_sockets.h>
 #endif
+#if HAVE_QNX_VM_SOCKETS_H
+#include <vm_sockets.h>
+#endif
 
 #endif /* !defined(__sysincludes_h_included) */

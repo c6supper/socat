@@ -17,6 +17,9 @@
 
 #include "hostan.h"
 
+#ifdef __QNX__
+#include <devctl.h>
+#endif
 
 static int iffan(FILE *outfile);
 static int vsockan(FILE *outfile);
@@ -322,13 +325,23 @@ static int vsockan(FILE *outfile) {
 	if (Getuid() != 0) {
 	   return 1;
 	}
-	if ((vsock = Open("/dev/vsock", O_RDONLY, 0)) < 0 ) {
-		Warn1("open(\"/dev/vsock\", ...): %s", strerror(errno));
-		return -1;
-	} else if (Ioctl(vsock, IOCTL_VM_SOCKETS_GET_LOCAL_CID, &cid) < 0) {
-		Warn2("ioctl(%d, IOCTL_VM_SOCKETS_GET_LOCAL_CID, ...): %s",
-		      vsock, strerror(errno));
-		return -1;
+#ifdef __QNX__
+	if (Ioctl(vsock, DCMD_VM_SOCKETS_GET_LOCAL_CID, &cid) < 0) {
+      Warn2("ioctl(%d, DCMD_VM_SOCKETS_GET_LOCAL_CID, ...): %s",
+            vsock, strerror(errno));
+      return -1;
+#else
+   if ((vsock = Open("/dev/vsock", O_RDONLY, 0)) < 0)
+   {
+      Warn1("open(\"/dev/vsock\", ...): %s", strerror(errno));
+      return -1;
+   }
+   else if (Ioctl(vsock, DCMD_VM_SOCKETS_GET_LOCAL_CID, &cid) < 0)
+   {
+      Warn2("ioctl(%d, IOCTL_VM_SOCKETS_GET_LOCAL_CID, ...): %s",
+            vsock, strerror(errno));
+      return -1;
+#endif
 	} else {
 		Notice1("VSOCK CID=%u", cid);
 		fprintf(outfile, "\nVSOCK_CID        = %u\n", cid);

@@ -288,6 +288,9 @@
 /* Define if you have the <linux/vm_sockets.h> header file.  */
 #undef HAVE_LINUX_VM_SOCKETS_H
 
+/* Define if you have the <vm_sockets.h> header file.  */
+#undef HAVE_QNX_VM_SOCKETS_H
+
 /* Define if you have the <sched.h> header file.  */
 #undef HAVE_SCHED_H
 

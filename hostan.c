@@ -336,7 +336,7 @@ static int vsockan(FILE *outfile) {
       Warn1("open(\"/dev/vsock\", ...): %s", strerror(errno));
       return -1;
    }
-   else if (Ioctl(vsock, DCMD_VM_SOCKETS_GET_LOCAL_CID, &cid) < 0)
+   else if (Ioctl(vsock, IOCTL_VM_SOCKETS_GET_LOCAL_CID, &cid) < 0)
    {
       Warn2("ioctl(%d, IOCTL_VM_SOCKETS_GET_LOCAL_CID, ...): %s",
             vsock, strerror(errno));
